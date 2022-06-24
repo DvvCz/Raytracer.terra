@@ -33,7 +33,10 @@ terra PPM.methods.new(width: uint16, height: uint16)
 end
 
 terra PPM:writePixel(r: uint8, g: uint8, b: uint8)
-	-- C.printf("writing to %u-%u\n", self.ptr * 3, self.ptr * 3 + 2);
+	if self.ptr >= self.buffer_size then
+		C.printf("Writing over buffer size..")
+		return
+	end
 	self.buffer[self.ptr] = r;
 	self.buffer[self.ptr + 1] = g;
 	self.buffer[self.ptr + 2] = b;
